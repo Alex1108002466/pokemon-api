@@ -38,7 +38,7 @@ POKEMONS = {
 def root():
     return {"message": "Pokemon API работает!"}
 
-app.get("/pokemon")
+@app.get("/pokemon")
 def pokemons():
     return list(POKEMONS.keys())
 
