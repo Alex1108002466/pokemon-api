@@ -34,16 +34,23 @@ POKEMONS = {
     )
 }
  
-@app.get("/")
+@app.get("/", summary="Проверка работы сервера")
 def root():
+    """Возвращает приветственное сообщение, чтобы убедиться что API запущен"""
     return {"message": "Pokemon API работает!"}
 
-@app.get("/pokemon")
+@app.get("/pokemon", summary="Список всех покемонов")
 def pokemons():
+    """Возвращает список названий всех покемонов"""
     return list(POKEMONS.keys())
 
-@app.get("/pokemon/{name}", response_model = PokemonInfo)
+@app.get("/pokemon/{name}", response_model = PokemonInfo, summary = "Информация о покемоне")
 def get_pokemon(name: str):
+    """
+    Возвращает характеристики покемона по его названию.
+
+    - **name**: название покемона (например, pikachu, charizard, mewtwo)
+    """
     pokemon = POKEMONS.get(name)
     if not pokemon:
         raise HTTPException(status_code = 404, detail = f"Покемон {name} не найден!")
