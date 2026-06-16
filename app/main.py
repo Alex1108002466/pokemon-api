@@ -40,7 +40,7 @@ def seed_pokemons():
     with Session(engine) as session:
         existing = session.exec(select(Pokemon)).first()
         if existing:
-            return  # данные уже есть, не дублируем
+            return
  
         pokemons = [
             Pokemon(name="pikachu", base_experience=112, height=0.4, type="electric", weight=6.0),
