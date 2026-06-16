@@ -33,6 +33,23 @@ engine = create_engine(sqlite_url, connect_args=connect_args)
 def create_db_and_tables(): 
     SQLModel.metadata.create_all(engine)
 
+def seed_pokemons():
+    """
+    Заполняет БД покемонами, если таблица пустая
+    """
+    with Session(engine) as session:
+        existing = session.exec(select(Pokemon)).first()
+        if existing:
+            return  # данные уже есть, не дублируем
+ 
+        pokemons = [
+            Pokemon(name="pikachu", base_experience=112, height=0.4, type="electric", weight=6.0),
+            Pokemon(name="charizard", base_experience=267, height=1.7, type="fire,flying", weight=90.5),
+            Pokemon(name="mewtwo", base_experience=340, height=2.0, type="psychic", weight=122.0),
+        ]
+        session.add_all(pokemons)
+        session.commit()
+
 def get_session():
     with Session(engine) as session:
         yield session
@@ -44,7 +61,7 @@ app = FastAPI()
 @app.on_event("startup")
 def on_startup():
     create_db_and_tables()
-
+    seed_pokemons()
 
 
 @app.get("/", summary="Проверка работы сервера")
