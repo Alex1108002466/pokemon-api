@@ -30,9 +30,6 @@ sqlite_url = f"sqlite:///pokemon.db"
 connect_args = {"check_same_thread": False}
 engine = create_engine(sqlite_url, connect_args=connect_args)
 
-def create_db_and_tables(): 
-    SQLModel.metadata.create_all(engine)
-
 def seed_pokemons():
     """
     Заполняет БД покемонами, если таблица пустая
@@ -60,7 +57,6 @@ app = FastAPI()
 
 @app.on_event("startup")
 def on_startup():
-    create_db_and_tables()
     seed_pokemons()
 
 
