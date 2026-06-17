@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.git/
+.gitignore
+*.db
+.pytest_cache/
+.ruff_cache/
+README.md
